@@ -7,7 +7,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
-
 import br.com.javaee.models.Conta;
 
 @Stateless
@@ -17,7 +16,7 @@ public class ContaDao {
     EntityManager  manager;
 	
 	public Conta salvar(Conta conta) {
-		
+				
 		manager.persist(conta);
 		return conta;
 		
@@ -25,18 +24,23 @@ public class ContaDao {
 	
 	public void excluir(Integer id) {
 		
-		Conta contaE = manager.find(Conta.class,id);
+		 Conta contaE = manager.find(Conta.class,id);
 		 manager.remove(contaE);
 		
 	}
 	
 
-	public void alterar(Integer id) {
+	public Conta alterar(Conta conta) {
+			
+		Conta contaA = manager.find(Conta.class, conta.getId());
+		if(contaA != null) {
+			contaA = conta;
+			manager.merge(contaA);
+		}
 		
-		Conta contaA = manager.find(Conta.class,id);
-		 manager.merge(contaA);
+		return contaA;
 		
-	}   	
+	}
 	
 	public List<Conta> listar() {
 		
@@ -53,6 +57,15 @@ public class ContaDao {
 		        return query.getResultList();
 		
 	}
+	
+	
+	/*public  Integer validaTipolancamento (Integer id) {
+		
+		
+		String sql = "select t.id from tipolancamento t where t.id =" + id + "";
+		Query query = manager.createNativeQuery(sql);
+	
+	}*/
 	
 	public Conta listarId(Integer id) {
 		

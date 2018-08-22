@@ -8,6 +8,7 @@ import javax.jws.WebService;
 import br.com.javaee.beans.ContaBean;
 import br.com.javaee.dao.ContaDao;
 import br.com.javaee.models.Conta;
+import br.com.javaee.models.tipoLancamento;
 
 @Stateless
 @WebService
@@ -18,9 +19,10 @@ public class ContaWs {
 	
 	@Inject
 	ContaDao dao;
-
-
-
+	
+	@Inject 
+	tipoLancamento tipoLancamento;
+	
 	public List<Conta> listar(){
 		
 		return bean.listar();
@@ -54,7 +56,9 @@ public class ContaWs {
 	
 	
 	public void salvar(Conta conta) throws Exception {
-				
+		
+		System.out.println(conta.getId());
+		conta.setId(null);
 		bean.salvar(conta);
 	}
 	
@@ -65,15 +69,24 @@ public class ContaWs {
 				
 	}
 	
-	public void alterar(Integer id) throws Exception {
+	
+	public Conta alterar(Conta conta) throws Exception {
 		
-		 try {
-			 	bean.alterar(id);
+		 try {	
 			 	
-	        } catch (Exception ex) {
+			 	return bean.alterar(conta);
+			 	
+			 } catch (Exception ex) {
 
 	            throw ex;
 	        }
 	}
+	
+	/*public Integer listTp(Integer id) throws Exception {
+		
+		System.out.println( dao.validaTipolancamento(id));
+		return dao.validaTipolancamento(id);
+		
+	}*/
 	
 }

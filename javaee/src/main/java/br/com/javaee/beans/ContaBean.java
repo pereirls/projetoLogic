@@ -16,9 +16,8 @@ public class ContaBean {
 	
 	
 	@Inject
-	private ContaDao dao;
+	private ContaDao dao; 
 	
-	@Transactional
 	public Conta salvar(Conta conta) throws Exception{
 		
 		try {	
@@ -32,6 +31,9 @@ public class ContaBean {
 		
 			return conta;
 	}
+
+	
+						
 	
 	@Transactional
 	public void excluir(Integer id) throws Exception {
@@ -45,21 +47,22 @@ public class ContaBean {
 
 	
 	@Transactional
-	public void alterar(Integer id) throws Exception{
-		
-		try { 
-			
-					dao.alterar(id);          
+	public Conta alterar(Conta conta) throws Exception{
+	
+			try { 
+				
+				valida(conta);
+				dao.alterar(conta);
+				return conta;
+				
+			} catch (Exception e) {
 
-        } catch (Exception e) {
-
-            
-            throw e;
-
-        }
-
-        
+				throw e;
+             
+			}
 	}
+	
+	
 	
 		
 	private List<Conta> contas = new ArrayList<>();	
@@ -77,14 +80,13 @@ public class ContaBean {
 		
 	}
 	
+	@Transactional
 	public Conta listarId(Integer id){
 		try {
 				return dao.listarId(id);
 		} catch (Exception e) {
 			throw e;
 		}
-		
-		
 	}
 	
 	@Transactional
@@ -124,8 +126,6 @@ public class ContaBean {
 	
 	
 	
-	
-	
 	private void valida(Conta conta) throws Exception {
 		
 			if (conta.getNome() == null || (conta.getNome().length() < 5)) {
@@ -140,7 +140,7 @@ public class ContaBean {
         		throw new Exception("Insira o valor");
         	}
 
-        	if (conta.getTipoLancamento() == null) {
+        	if (conta.getTipoLancamento() == null /*|| dao.validaTipolancamento(conta.getTipoLancamento()) != null*/) {
         		throw new Exception("Insira o tipo Lançamento");
         	} 
         	

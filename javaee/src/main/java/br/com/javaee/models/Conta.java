@@ -16,7 +16,6 @@ public class Conta {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
-	
 	private String dataLancamento;
 	
 	@NotNull
@@ -33,6 +32,7 @@ public class Conta {
 	}
 
 	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	public String getDataLancamento() {
