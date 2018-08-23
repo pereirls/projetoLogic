@@ -16,6 +16,7 @@ public class Conta {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
+	@NotBlank
 	private String dataLancamento;
 	
 	@NotNull

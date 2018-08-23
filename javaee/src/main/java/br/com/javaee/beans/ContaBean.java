@@ -53,13 +53,14 @@ public class ContaBean {
 				
 				valida(conta);
 				dao.alterar(conta);
-				return conta;
+				
 				
 			} catch (Exception e) {
 
 				throw e;
              
 			}
+			return conta;
 	}
 	
 	
@@ -90,21 +91,22 @@ public class ContaBean {
 	}
 	
 	@Transactional
-    public List<Conta> listarNome(String nome){
+    public List<Conta> listarNome(String nome) throws Exception{
 		try {
-				 dao.listarNome(nome);
-				
+			
+			validaNome(nome);
+			return dao.listarNome(nome);
 		} catch (Exception e) {
 			throw e;
 		}
 		
-		return dao.listarNome(nome);
 		
 	}	
 		
 	@Transactional
-	public List<Conta> listaData(String dataLancamento){
-		try {
+	public List<Conta> listaData(String dataLancamento) throws Exception{
+		try {	
+				validaData(dataLancamento);
 				return dao.listarData(dataLancamento);
 		} catch (Exception e) {
 			throw e;
@@ -114,8 +116,9 @@ public class ContaBean {
 	}
 
 	@Transactional
-	public List<Conta> listTipoLancamento(Integer tipoLancamento){
+	public List<Conta> listTipoLancamento(Integer tipoLancamento) throws Exception{
 		try {
+				validaTipo(tipoLancamento);
 				return dao.listarTipoLancamento(tipoLancamento);
 		} catch (Exception e) {
 			throw e;
@@ -124,18 +127,62 @@ public class ContaBean {
 		
 	}
 	
+	private void validaNome(String nome) throws Exception {
+		
+		
+		if(dao.listarNome(nome).isEmpty() == true) {
+			
+			throw new Exception("Nenhuma conta encontrada");
+			
+		}
+	}
 	
+	private void validaData(String data) throws Exception {
+		
+		
+		if(dao.listarData(data).isEmpty() == true) {
+			
+			throw new Exception("Nenhuma conta encontrada");
+			
+		}
+	}
+
+	private void validaTipo(int tipo) throws Exception {
+	
+	
+		if(dao.listarTipoLancamento(tipo).isEmpty() == true) {
+		
+			throw new Exception("Nenhuma conta encontrada");
+		
+		}
+	}
 	
 	private void valida(Conta conta) throws Exception {
 		
-			if (conta.getNome() == null || (conta.getNome().length() < 5)) {
-        		throw new Exception("Insira o Nome da conta");
+		
+			if(dao.listarNome(conta.getNome())==null) {
+				
+				throw new Exception("Nome não encontrado");
+				
+			}
+			if (conta.getNome() == null){
+    		
+				throw new Exception("O nome da conta não pode ser nulo");
+			}
+			
+			if (conta.getNome().length() < 5){
+        		
+				throw new Exception("A conta precisa ter mais de 5 caracteres");
         	}
         
-        	if (conta.getDataLancamento() == null) {
+        	if (conta.getDataLancamento() == null ) {
         		throw new Exception("Insira a data Lançamento");
         	}
-        	
+        	if (conta.getDataLancamento().length() != 8) {
+        		
+        		throw new Exception("Insira uma data válida (formato: YYYYMMDD)");
+        		
+        	}
         	if (conta.getValor() == null || conta.getValor() <= 0) {
         		throw new Exception("Insira o valor");
         	}

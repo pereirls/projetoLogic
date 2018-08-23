@@ -33,11 +33,8 @@ public class ContaDao {
 	public Conta alterar(Conta conta) {
 			
 		Conta contaA = manager.find(Conta.class, conta.getId());
-		if(contaA != null) {
-			contaA = conta;
-			manager.merge(contaA);
-		}
-		
+		contaA = conta;
+		manager.merge(contaA);
 		return contaA;
 		
 	}
@@ -58,14 +55,6 @@ public class ContaDao {
 		
 	}
 	
-	
-	/*public  Integer validaTipolancamento (Integer id) {
-		
-		
-		String sql = "select t.id from tipolancamento t where t.id =" + id + "";
-		Query query = manager.createNativeQuery(sql);
-	
-	}*/
 	
 	public Conta listarId(Integer id) {
 		
@@ -92,7 +81,6 @@ public class ContaDao {
 				"select c from Conta c " + 
 						"where c.nome like :nome", Conta.class);
 		query.setParameter("nome", "%" + nome + "%");
-
 		return query.getResultList();
 		
 	}

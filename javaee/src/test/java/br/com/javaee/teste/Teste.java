@@ -25,7 +25,7 @@ public class Teste {
 	
 	private Conta conta;
 	
-    @Deployment
+  /*  @Deployment
     public static JavaArchive arquivoTeste() {
         return ShrinkWrap.create(JavaArchive.class)
                 .addClasses(ContaBean.class,
@@ -33,7 +33,7 @@ public class Teste {
                 .addAsResource("META-INF/persistence.xml")
                 .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
     }
-	
+	*/
 
 	public Teste() {
 	   
