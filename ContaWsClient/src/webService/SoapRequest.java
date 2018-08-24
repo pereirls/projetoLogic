@@ -98,7 +98,7 @@ public static void main(String[] args) throws RemoteException {
 				Scanner data1 = new Scanner(System.in);
 				String dataInicial = data1.next();
 			
-				System.out.println("Digite a data lancamento incial: ");
+				System.out.println("\nDigite a data lancamento Final: ");
 		      	Scanner data2 = new Scanner(System.in);
 		      	String dataFinal = data2.next();
 				
