@@ -164,7 +164,7 @@ public class Teste {
 
 	    }
 
-	    @Test
+	   /* @Test
 	    @InSequence(8)
 	    public void testeListaDataLancamento() throws Exception {
 	     try {
@@ -187,7 +187,7 @@ public class Teste {
 	    	}
 
 
-	    }
+	    }*/
 
 	   
 	   

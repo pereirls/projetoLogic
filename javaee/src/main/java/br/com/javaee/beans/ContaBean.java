@@ -104,10 +104,10 @@ public class ContaBean {
 	}	
 		
 	@Transactional
-	public List<Conta> listaData(String dataLancamento) throws Exception{
+	public List<Conta> listaData(String datainicio, String dataFim) throws Exception{
 		try {	
-				validaData(dataLancamento);
-				return dao.listarData(dataLancamento);
+				validaData(datainicio,dataFim);
+				return dao.listarData(datainicio,dataFim);
 		} catch (Exception e) {
 			throw e;
 		}
@@ -137,11 +137,10 @@ public class ContaBean {
 		}
 	}
 	
-	private void validaData(String data) throws Exception {
+	private void validaData(String data1,String data2) throws Exception {
 		
 		
-		if(dao.listarData(data).isEmpty() == true) {
-			
+		if(dao.listarData(data1,data2).isEmpty() == true) {
 			throw new Exception("Nenhuma conta encontrada");
 			
 		}

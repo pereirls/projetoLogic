@@ -44,9 +44,9 @@ public class ContaWs {
 		
 	}
 	
-	public List<Conta> listaDataLancamento(String dataLancamento) throws Exception{
+	public List<Conta> listaDataLancamento(String dataInicio, String dataFim) throws Exception{
 		
-		return bean.listaData(dataLancamento);
+		return bean.listaData(dataInicio,dataFim );
 		
 	}
 	

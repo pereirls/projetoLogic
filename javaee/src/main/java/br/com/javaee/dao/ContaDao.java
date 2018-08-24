@@ -62,13 +62,14 @@ public class ContaDao {
 		
 	}
 	
-	public List<Conta> listarData(String dataLancamento) {
+	public List<Conta> listarData(String dataInicio,String dataFim) {
 		
 		TypedQuery<Conta> query = this.manager.createQuery(
                 "select c from Conta c " + 
-                "where c.dataLancamento like :data", Conta.class);
-        query.setParameter("data","%"+dataLancamento+"%");
-        System.out.println(dataLancamento);
+                "where c.dataLancamento between :dataIncial and :dataFim", Conta.class);
+        query.setParameter("dataIncial",dataInicio);
+        query.setParameter("dataFim",dataFim);
+        //System.out.println(dataLancamento);
         return query.getResultList();
         
        

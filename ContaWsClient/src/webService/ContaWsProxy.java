@@ -44,10 +44,10 @@ public class ContaWsProxy implements webService.ContaWs {
     return contaWs;
   }
   
-  public webService.Conta[] listaDataLancamento(java.lang.String arg0) throws java.rmi.RemoteException{
+  public webService.Conta[] listaDataLancamento(java.lang.String arg0, java.lang.String arg1) throws java.rmi.RemoteException, webService.Exception{
     if (contaWs == null)
       _initContaWsProxy();
-    return contaWs.listaDataLancamento(arg0);
+    return contaWs.listaDataLancamento(arg0, arg1);
   }
   
   public webService.Conta[] listar() throws java.rmi.RemoteException{
@@ -62,13 +62,13 @@ public class ContaWsProxy implements webService.ContaWs {
     return contaWs.listarId(arg0);
   }
   
-  public webService.Conta[] listarNome(java.lang.String arg0) throws java.rmi.RemoteException{
+  public webService.Conta[] listarNome(java.lang.String arg0) throws java.rmi.RemoteException, webService.Exception{
     if (contaWs == null)
       _initContaWsProxy();
     return contaWs.listarNome(arg0);
   }
   
-  public webService.Conta[] listaTipoLancamento(java.lang.Integer arg0) throws java.rmi.RemoteException{
+  public webService.Conta[] listaTipoLancamento(java.lang.Integer arg0) throws java.rmi.RemoteException, webService.Exception{
     if (contaWs == null)
       _initContaWsProxy();
     return contaWs.listaTipoLancamento(arg0);

@@ -17,7 +17,7 @@ public static void main(String[] args) throws RemoteException {
 				+ "\n(2) Pesquisar contas por id"
 				+ "\n(3) Pesquisar contas por nome"
 				+ "\n(4) Pesquisar contas por tipo lançamento"
-				+ "\n(5) Pesquisar contas por data"
+				+ "\n(5) Pesquisar contas por periodo"
 				+ "\n(6) Criar nova conta"
 				+ "\n(7) Excluir conta"
 				+ "\n(8) Alterar conta"
@@ -94,11 +94,15 @@ public static void main(String[] args) throws RemoteException {
 			 
 			 break;
 		  case 5:
-			 System.out.println("Digite a data lancamento: ");
-				Scanner data = new Scanner(System.in);
-				String dataLancamento = data.next();
+			  	System.out.println("Digite a data lancamento incial: ");
+				Scanner data1 = new Scanner(System.in);
+				String dataInicial = data1.next();
+			
+				System.out.println("Digite a data lancamento incial: ");
+		      	Scanner data2 = new Scanner(System.in);
+		      	String dataFinal = data2.next();
 				
-				Conta[] contasDt = client.listaDataLancamento(dataLancamento);
+				Conta[] contasDt = client.listaDataLancamento(dataInicial,dataFinal);
 				
 				for(Conta contasDt1 : contasDt) {
 					
