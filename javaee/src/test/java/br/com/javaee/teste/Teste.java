@@ -12,11 +12,13 @@ import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.wildfly.common.Assert;
 
 import br.com.javaee.beans.ContaBean;
+import br.com.javaee.dao.ContaDao;
 import br.com.javaee.models.Conta;
+import junit.framework.Assert;
 
+@SuppressWarnings("deprecation")
 @RunWith(Arquillian.class)
 public class Teste {
 	
@@ -25,170 +27,158 @@ public class Teste {
 	
 	private Conta conta;
 	
-  /*  @Deployment
-    public static JavaArchive arquivoTeste() {
+	@Deployment
+    public static JavaArchive criarArquivoTeste() {
         return ShrinkWrap.create(JavaArchive.class)
                 .addClasses(ContaBean.class,
+                        ContaDao.class,
                         Conta.class)
                 .addAsResource("META-INF/persistence.xml")
                 .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
     }
-	*/
 
 	public Teste() {
-	   
-		
-	
-	  conta = new Conta();
-	  /*conta.setId(99);*/
-	  conta.setNome("Teste Junit");
-	  conta.setTipoLancamento(1);
-	  conta.setValor(12.50);
-	  conta.setDataLancamento("14/08/2018");
-	  
-	  	  
-	    
-	}
-	
-	
-	 @Test
-	    @InSequence(1)
-	    public  void testeSalvar() throws Exception {
-		 try {
-			 conta = bean.salvar(conta);
-			 Assert.assertTrue(conta.getId() > 0);
-			 Integer id = conta.getId();
-			 bean.excluir(id);
-		 } catch (Exception e) {
-				
-			}
 
-	    }
-	 
-	 
-	 	@Test
-	    @InSequence(2)
-	    public void testeExcluir() throws Exception {
-	 	try {
-	        conta = bean.salvar(conta);
-	        Assert.assertTrue(conta.getId() > 0);
-	        Integer id = conta.getId();
-	        bean.excluir(id);
-	 	 } catch (Exception ex) {
-	           
+        conta = new Conta();
+        conta.setNome("Teste");
+        conta.setDataLancamento("20180824");
+        conta.setValor(999.99);
+        conta.setTipoLancamento(1);
+
+    }  
+	
+	@Test
+    @InSequence(1)
+    public void testeListarTodas() throws Exception {
+
+        List<Conta> contas = new ArrayList<>();
+        conta = bean.salvar(conta);
+        contas = bean.listar();
+
+        bean.excluir(conta.getId());
+        Assert.assertTrue(contas.size() > 0);
+
+    }
+	
+	@Test
+    @InSequence(2)
+    public void testeListarId() throws Exception {
+
+        conta = bean.salvar(conta);
+        Conta contaRetorno = bean.listarId(conta.getId());
+
+        bean.excluir(conta.getId());
+        Assert.assertTrue(contaRetorno.getNome().equals(conta.getNome()));
+
+    }
+
+	@Test
+    @InSequence(3)
+    public void testeListaNome() throws Exception {
+
+        List<Conta> contas = new ArrayList<>();
+        conta = bean.salvar(conta);
+        contas = bean.listarNome(conta.getNome());
+
+        boolean validaConta = false;
+        for (Conta c : contas) {
+            if (c.getId().equals(conta.getId())) {
+            	validaConta = true;
+            }
+        }
+
+        bean.excluir(conta.getId());
+        Assert.assertTrue(validaConta);
+
+    }
+	
+	
+    @Test
+    @InSequence(4)
+    public void testeListTipoLancamento() throws Exception {
+
+        List<Conta> contas = new ArrayList<>();
+        conta = bean.salvar(conta);
+        contas = bean.listTipoLancamento(conta.getTipoLancamento());
+        boolean valida = false;
+
+        for (Conta c : contas) {
+            if (c.getId().equals(conta.getId())) {
+                valida = true;
+            }
+        }
+
+        bean.excluir(conta.getId());
+        Assert.assertTrue(valida);
+
+    }
+
+    @Test
+    @InSequence(5)
+    public void testeListPeriodo() throws Exception {
+
+        List<Conta> contas = new ArrayList<>();
+        conta = bean.salvar(conta);
+        String dataInicial = "20180824";
+        String dataFinal = "20180824";
+        
+        contas = bean.listaData(dataInicial,dataFinal);
+
+        boolean validaData = false;
+        for (Conta c : contas) {
+            if (c.getId().equals(conta.getId())) {
+            	validaData = true;
+            }
+        }
+
+        bean.excluir(conta.getId());
+        Assert.assertTrue(validaData);
+
+    }
+    
+    @Test
+	@InSequence(6)
+	    public void testeSalvar() throws Exception {
+
+	        try {
+
+	            conta = bean.salvar(conta);
+
+	            bean.excluir(conta.getId());
+	            Assert.assertTrue(conta.getId() > 0);
+
+	        } catch (Exception ex) {
+	           throw ex;
 	        }
 
 	    }
-	 	
-	 	
-	   /* @Test
-	    @InSequence(3)
-	    public void testeAtualizar(Conta conta) throws Exception {
-	    try {	
-	    	String nome = "Alterada" ;
-	        conta = bean.salvar(conta);
-	        conta.setNome(nome);
-	        Integer id = conta.getId();
-	        bean.alterar(conta);
-	        Conta busca = bean.listarId(conta.getId());
-	         bean.excluir(id);
-	        Assert.assertTrue(busca.getNome().equals(nome));
-	    } catch (Exception e) {
-			
-		}
 	
+	@Test
+    @InSequence(7)
+    public void testeExcluir() throws Exception {
 
+        conta = bean.salvar(conta);
 
-	    }*/
-	    
-	    
-	    @Test
-	    @InSequence(4)
-	    public void testeListacontas() throws Exception {
-	   try {
-	        List<Conta> contas = new ArrayList<>();
-	        conta = bean.salvar(conta);
-	        contas = bean.listar();
-	        Integer id = conta.getId();
-	        bean.excluir(id);
-	        Assert.assertTrue(contas.size()>0);
-	        
-	    } catch (Exception e) {
-			
-		}
+        bean.excluir(conta.getId());
+        Assert.assertTrue(conta.getId() > 0);
 
+    }
+	
+	@Test
+    @InSequence(8)
+    public void testeUpdate() throws Exception {
 
-	    }
+        String nome = "Atualizado";
+        conta = bean.salvar(conta);
+        
+        conta.setNome(nome);
+        
+        bean.alterar(conta);
+        
+        Conta contaAtualizada = bean.listarId(conta.getId());
+        bean.excluir(conta.getId());
+        Assert.assertTrue(contaAtualizada.getNome().equals(nome));
 
-	 
-	    @Test
-	    @InSequence(6)
-	    public void testeLisarId() throws Exception {
-	    try {
-	        conta = bean.salvar(conta);
-	        Conta retorno = bean.listarId(conta.getId());
-	        
-	        Integer id = conta.getId();
-	        bean.excluir(id);
-	        Assert.assertTrue(retorno.getNome().equals(conta.getNome()));
-	    	} catch (Exception e) {
-	    			
-	    	}
-
-	    }
-
-	    @Test
-	    @InSequence(7)
-	    public void testaConsultaDeContaPorTipoLancamento() throws Exception {
-	    try {
-	        List<Conta> contas = new ArrayList<>();
-	        conta = bean.salvar(conta);
-	        Integer tipoLancaMento = conta.getTipoLancamento();
-	        contas = bean.listTipoLancamento(tipoLancaMento);
-	        boolean validar = false;
-
-	        for (Conta c : contas) {
-	            if (c.getId().equals(conta.getId())) {
-	                validar = true;
-	            }
-	        }
-	        
-	        Integer id = conta.getId();
-	        bean.excluir(id);
-	        Assert.assertTrue(validar);
-	        
-	    	} catch (Exception e) {
-	    		
-	    	}
-
-
-	    }
-
-	   /* @Test
-	    @InSequence(8)
-	    public void testeListaDataLancamento() throws Exception {
-	     try {
-	       
-	        conta = bean.salvar(conta);
-	        String dataLancamento = "15/08/2018";
-	         bean.listaData(dataLancamento);
-
-	        boolean valida = false;
-	        for (Conta c : bean.listaData(dataLancamento)) {
-	            if (c.getId().equals(conta.getId())) {
-	                valida = true;
-	            }
-	        }
-	        
-	        Integer id = conta.getId();
-	        bean.excluir(id);
-	        Assert.assertTrue(valida);
-	    	} catch (Exception e) {
-	    	}
-
-
-	    }*/
-
-	   
+    }
 	   
 }

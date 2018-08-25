@@ -186,7 +186,7 @@ public class ContaBean {
         		throw new Exception("Insira o valor");
         	}
 
-        	if (conta.getTipoLancamento() == null /*|| dao.validaTipolancamento(conta.getTipoLancamento()) != null*/) {
+        	if (conta.getTipoLancamento() == null) {
         		throw new Exception("Insira o tipo Lançamento");
         	} 
         	
