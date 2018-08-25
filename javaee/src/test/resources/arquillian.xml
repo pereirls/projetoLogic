@@ -7,7 +7,7 @@
    
         <container qualifier="jboss" default="true">
               <configuration>
-                    <property name="jbossHome">D:\JAVA EE\wildfly</property>
+                    <property name="jbossHome">D:\JAVA EE\ServidorAplicacao\wildFly</property>
               </configuration>
         </container>
         
